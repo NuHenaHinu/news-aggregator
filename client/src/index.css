@@ -15,7 +15,7 @@ html, body {
 }
 
 .light-theme {
-    //--background: url("https://tailwindcss.com/_next/static/media/hero@75.b2469a49.jpg");
+    --background: url("./assets/light-background.jpg");
     --primary: #F8FAFC;
     --secondary: #0F172A;
     --txt: #000;
@@ -28,7 +28,7 @@ html, body {
 }
 
 .dark-theme {
-    //--background: url("https://tailwindcss.com/_next/static/media/hero-dark@90.dba36cdf.jpg");
+    --background: url("./assets/dark-background.jpg");
     --primary: rgb(30,41,59);
     --secondary: #D5DDF0;
     --txt: #fff;
@@ -38,6 +38,7 @@ html, body {
     --search-background: #18181b;
 }
 
+/* Global styles */
 body {
     background: var(--background);
     background-size: cover;
@@ -50,6 +51,7 @@ body {
     width: 100% !important;
 }
 
+/* Navbar styles */
 nav {
     height: 70px;
     backdrop-filter: blur(4px);
@@ -64,6 +66,7 @@ nav ul {
     min-width: 378px;
 }
 
+/* Dropdown styles */
 .dropdown-li {
     position: relative;
 }
@@ -108,6 +111,7 @@ ul li ul {
     overflow: auto;
     top: 30px;
 }
+
 
 ul li ul li {
     clear: both;
@@ -225,6 +229,7 @@ ul li ul li a:hover {
     border-radius: 34px;
 }
 
+/* Cards */
 .card-container {
     width: 400px;
     height: 500px;

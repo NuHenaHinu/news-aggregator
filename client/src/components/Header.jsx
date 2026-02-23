@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 //import logo from '../assets/logo.png';
 import country from './country';
+import '../index.css';
 
 function Header() {
     const [active, setActive] = useState(false);
@@ -35,34 +36,39 @@ function Header() {
                             Home
                         </Link>
                     </li>
+
+                    {/* Category dropdown */}
                     <li className="dropdown-li">
                         <Link className="no-underline font-semibold flex-center gap-2" onClick={()=>{setShowCategoryDropdown(!showCategoryDropdown)}}>
                             Category    
                         </Link>
+                        <ul className={showCategoryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
+                            {categories.map((element, index) => (
+                                <li key={index} onClick={() => setShowCategoryDropdown(false)}>
+                                    <Link to={`/top-headlines?category=${element}`} className="flex gap-3" onClick={()=>{setActive(!active)}}>
+                                        <span>{element.charAt(0).toUpperCase() + element.slice(1)}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </li>
 
-                    {/* Category dropdown */}
-                    <ul className={showCategoryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
-                        {categories.map((element, index) => (
-                            <li key={index} onClick={() => setShowCategoryDropdown(false)}>
-                                <Link to={`/top-headlines?category=${element}`} className="flex gap-3" onClick={()=>{setActive(!active)}}>
-                                    <span>{element.charAt(0).toUpperCase() + element.slice(1)}</span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-
                     {/* Country dropdown */}
-                    <ul className={showCountryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
-                        {country.map((element, index)=>(
-                            <li key={index} onClick={() => setShowCountryDropdown(false)}>
-                                <Link to={`/country/${element?.iso_2_alpha}`} className="flex gap-3" onClick={()=>{setActive(!active)}}>
-                                    <img src={element?.png} srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`}></img>
-                                    <span>{element?.countryName}</span>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    <li className="dropdown-li">
+                        <Link className="no-underline font-semibold flex-center gap-2" onClick={()=>{setShowCountryDropdown(!showCountryDropdown)}}>
+                            Country    
+                        </Link>
+                        <ul className={showCountryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
+                            {country.map((element, index)=>(
+                                <li key={index} onClick={() => setShowCountryDropdown(false)}>
+                                    <Link to={`/country/${element?.iso_2_alpha}`} className="flex gap-3" onClick={()=>{setActive(!active)}}>
+                                        <img src={element?.png} srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`}></img>
+                                        <span>{element?.countryName}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
 
                     {/* Dark mode toggle*/}
                     <li>
@@ -75,8 +81,6 @@ function Header() {
                             </label>
                         </Link>
                     </li>
-
-                    <li><Link to="/login">Login</Link></li>
                 </ul>
             </nav>
         </header>
