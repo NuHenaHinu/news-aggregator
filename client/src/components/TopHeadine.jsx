@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Card from "./Card";
 import Loader from "./Loader";
-import { use } from "react";
+import { useParams } from "react-router-dom";
 
 function TopHeadline() {
     const params = useParams();
@@ -21,25 +21,28 @@ function TopHeadline() {
     let pageSize = 6;
 
     useEffect(() => {
+        setIsLoading(true);
         const categoryParam = params.category ? `&category=${params.category}` : '';
-        fetch(`http://localhost:3000/top-headlines?&language=en${categoryParam}&page=${page}&pageSize=${pageSize}&apiKey=${API_KEY}`)
-        .then(response  => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-                // setIsLoading(true);
-                // return response.json();
+        fetch(`http://localhost:3000/top-headlines?language=en&page=${page}&pageSize=${pageSize}${categoryParam}`)
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
             }
-            return response.clone().json();
+            throw new Error('Network response was not ok');
         })
         .then (json => {
-            setTotalResults(myJson.data.totalResults);
-            setData(myJson.data.articles);
-        setIsLoading(false);
+            if (json && json.data) {
+                setTotalResults(json.data.totalResults || 0);
+                setData(json.data.articles || []);
+            }
+            setIsLoading(false);
         })
         .catch (error => {
             console.error('Error fetching data:', error);
+            setData([]);
+            setTotalResults(0);
             setIsLoading(false);
-    });
+        });
     }, [page, params.category])
 
     return (

@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Card from "./Card";
 import Loader from "./Loader";
-import { use } from "react";
 
 function NewsPage() {
     const [ data, setData ] = useState([]);

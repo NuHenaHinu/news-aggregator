@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from "react";
 import Card from "./Card";
 import Loader from "./Loader";
-import { use } from "react";
+import { useParams } from "react-router-dom";
 
-function TopHeadline() {
+function NewsByCountry() {
     const params = useParams();
     const [ data, setData ] = useState([]);
     const [ page, setPage ] = useState(1);
@@ -21,23 +21,29 @@ function TopHeadline() {
     let pageSize = 6;
 
     useEffect(() => {
-        fetch(`http://localhost:3000/country/?${params.iso}&page=${page}&pageSize=${pageSize}`)
+        setIsLoading(true);
+        fetch(`http://localhost:3000/country/${params.iso}?page=${page}&pageSize=${pageSize}`)
         .then(response  => {
             if (response.ok) {
                 return response.json();
             }
             else {
                 console.error("Failed to fetch data", response.statusText);
-                setIsLoading(false);
-                return null;
+                throw new Error(response.statusText);
             }
         })
         .then (json => {
-            if (myJson) {
-                setTotalResults(myJson.data.totalResults);
-                setData(myJson.data.articles);
+            if (json && json.data) {
+                setTotalResults(json.data.totalResults || 0);
+                setData(json.data.articles || []);
             }
-        setIsLoading(false);
+            setIsLoading(false);
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            setData([]);
+            setTotalResults(0);
+            setIsLoading(false);
         });
     }, [page, params.iso])
 
@@ -75,4 +81,4 @@ function TopHeadline() {
     )
 }
 
-export default TopHeadline;
+export default NewsByCountry;
