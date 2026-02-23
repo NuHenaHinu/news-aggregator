@@ -69,12 +69,13 @@ function TopHeadline() {
                 )}
 
             </div>
-            {isLoading && <div className="pagination flex justify-center gap-14 my-10 items-center">
-                <button disabled={page <= 1} className="pagination-btn" onClick={() => handlePrevPage()}>Previous</button>
-                <p className="font-semibold">{page} of {Math.ceil(totalResults / pageSize)}</p>
-                <button disabled={page >= Math.ceil(totalResults / pageSize)} className="pagination-btn" onClick={() => handleNextPage()}>Next</button>
-            </div>
-            }
+            {isLoading && data.length > 0 && (
+                <div className="pagination flex justify-center gap-14 my-10 items-center">
+                    <button disabled={page <= 1} className="pagination-btn" onClick={() => handlePrevPage()}>Previous</button>
+                    <p className="font-semibold">{page} of {Math.ceil(totalResults / pageSize)}</p>
+                    <button disabled={page >= Math.ceil(totalResults / pageSize)} className="pagination-btn" onClick={() => handleNextPage()}>Next</button>
+                </div>
+            )}
         </>
     )
 }
